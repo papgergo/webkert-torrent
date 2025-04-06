@@ -10,5 +10,5 @@ export interface Torrent {
   seeds: number;
   description: string;
   coverImageUrl: string;
-  createdDate: Date;
+  uploadDate: Date;
 }

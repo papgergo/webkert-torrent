@@ -1,40 +1,51 @@
 .torrent-list-container {
+  margin: auto;
   margin-top: 30px;
-  margin-left: 10px;
-  margin-right: 10px;
   background-color: #222831;
-  padding: 15px;
+  max-width: 1200px;
 }
 
 table,
 mat-paginator {
+  border-radius: 5px;
   background-color: #222831;
 }
 
-tr:hover {
-  cursor: pointer;
-  background-color: #31363f;
+a {
+  display: block;
+  text-decoration: none;
+  color: var(--mat-sys-on-background);
 }
 
-tr:active {
-  background-color: #585c63;
+td a .mat-icon:hover {
+  border-bottom: 1px solid var(--mat-sys-on-background);
+  padding-top: 1px;
 }
 
-.mat-column-seeds > td {
-  color: green;
+a:hover {
+  text-decoration: underline;
 }
 
-.mat-column-name {
-  flex: 0 0 50%;
-  max-width: 50%;
+tr:nth-child(even) {
+  background-color: #2d3541;
 }
 
-.mat-column-category,
+.mat-column-seeds .mat-column-name {
+  flex: 0 0 40%;
+  max-width: 40%;
+}
+
+.mat-column-category {
+  width: 7%;
+  text-align: center;
+  word-wrap: unset;
+}
+
 .mat-column-seeds,
 .mat-column-size,
 .mat-column-uploadDate,
 .mat-column-uploader {
-  flex: 1;
+  width: 12%;
   text-align: center;
   word-wrap: unset;
 }
@@ -43,8 +54,4 @@ tr:active {
   .mat-column-uploadDate {
     display: none;
   }
-}
-
-a:hover {
-  cursor: pointer;
 }
