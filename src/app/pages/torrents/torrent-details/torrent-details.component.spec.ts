@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TorrentItemComponent } from './torrent-item.component';
+import { TorrentDetailsComponent } from './torrent-details.component';
 
-describe('TorrentItemComponent', () => {
-  let component: TorrentItemComponent;
-  let fixture: ComponentFixture<TorrentItemComponent>;
+describe('TorrentDetailsComponent', () => {
+  let component: TorrentDetailsComponent;
+  let fixture: ComponentFixture<TorrentDetailsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TorrentItemComponent]
+      imports: [TorrentDetailsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TorrentItemComponent);
+    fixture = TestBed.createComponent(TorrentDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
