@@ -1,1 +1,23 @@
-<p>torrent-details works!</p>
+<div class="mat-elevation-z8 torrent-container">
+  <div class="torrent-header">
+    <div class="title-container">
+      <h2>{{ torrent.name }}</h2>
+    </div>
+  </div>
+  <div class="torrent-details">
+    <div class="torrent-description">
+      <ul>
+        <li>Category: {{ torrent.category.name }}</li>
+        <li>Size: {{ torrent.size }}</li>
+        <li>Upload Date: {{ torrent.uploadDate | date : "mediumDate" }}</li>
+        <li>Uploader: {{ torrent.uploader.name }}</li>
+      </ul>
+    </div>
+    <div class="torrent-options">
+      <ul>
+        <li>Download Torrent</li>
+        <li>Magnet Download</li>
+      </ul>
+    </div>
+  </div>
+</div>

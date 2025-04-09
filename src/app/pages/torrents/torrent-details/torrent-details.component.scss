@@ -1,0 +1,45 @@
+.torrent-container {
+  margin: auto;
+  margin-top: 30px;
+  background-color: #222831;
+  max-width: 1200px;
+  min-height: 800px;
+  border-radius: 5px;
+}
+
+.title-container {
+  padding: 15px;
+  border-radius: 5px 5px 0px 0px;
+  background-color: #31363f;
+}
+
+.title-container h2 {
+  // color: var(--mat-sys-on-background);
+}
+.torrent-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+}
+
+.torrent-options {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.torrent-description {
+  background-color: #31363f;
+  margin: 10px;
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.torrent-description ul {
+  list-style: none;
+  padding: 5px;
+}
+
+.torrent-description ul li {
+  padding: 10px;
+  border-bottom: 1px solid var(--mat-sys-on-background);
+}

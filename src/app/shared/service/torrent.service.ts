@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Torrent } from '../models/torrent';
+import { Observable, of, timeout } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -320,5 +321,10 @@ export class TorrentService {
 
   getTorrents(): Torrent[] {
     return this.torrentCollection;
+  }
+
+  getTorrent(torrentId: number): Observable<Torrent | undefined> {
+    const foundTorrent = this.torrentCollection.find((t) => t.id == torrentId);
+    return of(foundTorrent);
   }
 }
