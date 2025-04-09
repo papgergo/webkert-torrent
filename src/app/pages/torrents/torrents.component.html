@@ -40,7 +40,11 @@
 
     <ng-container matColumnDef="uploader">
       <th mat-header-cell *matHeaderCellDef>Uploader</th>
-      <td mat-cell *matCellDef="let torrent">{{ torrent.uploader.name }}</td>
+      <td mat-cell *matCellDef="let torrent">
+        <a [routerLink]="['/profile', torrent.uploader.id]">{{
+          torrent.uploader.name
+        }}</a>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumnKeys"></tr>

@@ -1,33 +1,43 @@
 import { Routes } from '@angular/router';
+import { HomeComponent } from './pages/home/home.component';
+import { TorrentsComponent } from './pages/torrents/torrents.component';
+import { TorrentDetailsComponent } from './pages/torrents/torrent-details/torrent-details.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 export const routes: Routes = [
-    {
-        path:'',
-        redirectTo: 'home',
-        pathMatch: 'full'
-    },
-    {
-        path:'home',
-        loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
-    },
-    {
-        path:'torrents',
-        loadComponent: () => import('./pages/torrents/torrents.component').then(m => m.TorrentsComponent)
-    },
-    {
-        path:'login',
-        loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)
-    },
-    {
-        path:'register',
-        loadComponent: () => import('./pages/register/register.component').then(m => m.RegisterComponent)
-    },
-    {
-        path:'profile',
-        loadComponent: () => import('./pages/profile/profile.component').then(m => m.ProfileComponent)
-    },
-    {
-        path: '**',
-        redirectTo: 'home'
-    }
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
+  },
+  {
+    path: 'torrents',
+    component: TorrentsComponent,
+  },
+  {
+    path: 'torrents/:torrentId',
+    component: TorrentDetailsComponent,
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: '**',
+    redirectTo: 'home',
+  },
 ];

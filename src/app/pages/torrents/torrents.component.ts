@@ -7,7 +7,7 @@ import { CategoryEnum } from '../../shared/models/category';
 import { MatIconModule } from '@angular/material/icon';
 import { TorrentService } from '../../shared/service/torrent.service';
 import { DatePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-torrents',
