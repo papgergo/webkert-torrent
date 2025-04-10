@@ -3,8 +3,11 @@
   margin-top: 30px;
   background-color: var(--background-color);
   max-width: 1200px;
-  min-height: 800px;
   border-radius: 5px;
   display: flex;
   justify-content: center;
+}
+
+.submit-button {
+  text-align: center;
 }
