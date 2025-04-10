@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --background-color: #222831;
+  --background-color-secondary: #31363f;
+}
 
 html,
 body {
@@ -8,6 +12,8 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-* {
-  color: #dde1e8;
+a,
+a:hover,
+a:focus {
+  color: unset;
 }

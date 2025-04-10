@@ -1,21 +1,18 @@
 mat-toolbar {
-  background-color: #222831;
+  background-color: var(--background-color);
 }
 mat-sidenav {
-  background-color: #31363f;
+  background-color: var(--background-color-secondary);
 }
 mat-sidenav-container {
   height: 100%;
   background-color: #1c1d22;
-  color: #b9bdce;
 }
 
 .active a {
-  // color: var(--mat-sys-primary);
+  color: var(--mat-sys-primary);
 }
-
 ul a {
-  // color: var(--mat-sys-on-background);
   text-decoration: none;
 }
 

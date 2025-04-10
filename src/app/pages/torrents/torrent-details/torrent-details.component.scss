@@ -1,7 +1,7 @@
 .torrent-container {
   margin: auto;
   margin-top: 30px;
-  background-color: #222831;
+  background-color: var(--background-color);
   max-width: 1200px;
   min-height: 800px;
   border-radius: 5px;
@@ -10,12 +10,9 @@
 .title-container {
   padding: 15px;
   border-radius: 5px 5px 0px 0px;
-  background-color: #31363f;
+  background-color: var(--background-color-secondary);
 }
 
-.title-container h2 {
-  // color: var(--mat-sys-on-background);
-}
 .torrent-details {
   display: flex;
   flex-direction: row;
@@ -28,7 +25,7 @@
 }
 
 .torrent-description {
-  background-color: #31363f;
+  background-color: var(--background-color-secondary);
   margin: 10px;
   flex-grow: 1;
   flex-basis: 0;
