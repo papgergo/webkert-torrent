@@ -1,0 +1,15 @@
+.home-container {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+}
+
+a {
+  display: flex;
+  align-items: center;
+}
+.quick-actions {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}

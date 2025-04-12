@@ -1,0 +1,32 @@
+<div class="mat-elevation-z8 torrent-container">
+  <div class="torrent-header">
+    <div class="title-container">
+      <h2>{{ torrent.name }}</h2>
+    </div>
+  </div>
+  <div class="torrent-details">
+    <div class="torrent-info">
+      <ul>
+        <li>Category: {{ torrent.category.name }}</li>
+        <li>Size: {{ torrent.size }}</li>
+        <li>Upload Date: {{ torrent.uploadDate | date : "mediumDate" }}</li>
+        <li>Uploader: {{ torrent.uploader.name }}</li>
+      </ul>
+    </div>
+    <div class="torrent-options">
+      <ul>
+        <li><button mat-fab extended>Download Torrent</button></li>
+        <li><button mat-fab extended>Magnet Download</button></li>
+      </ul>
+    </div>
+  </div>
+  <div class="torrent-description">
+    <div class="image-container">
+      <img src="{{ torrent.coverImageUrl }}" alt="Torrent Cover Image" />
+    </div>
+    <div class="torrent-text">
+      <h2>{{ torrent.name }}</h2>
+      <p>{{ torrent.description }}</p>
+    </div>
+  </div>
+</div>

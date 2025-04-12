@@ -1,0 +1,57 @@
+.torrent-list-container {
+  margin: auto;
+  margin-top: 30px;
+  background-color: var(--background-color);
+  max-width: 1200px;
+}
+
+table,
+mat-paginator {
+  border-radius: 5px;
+  background-color: var(--background-color);
+}
+
+a {
+  display: block;
+  text-decoration: none;
+  // color: var(--mat-sys-on-background);
+}
+
+td a .mat-icon:hover {
+  border-bottom: 1px solid var(--mat-sys-on-background);
+  padding-top: 1px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+tr:nth-child(even) {
+  background-color: #2d3541;
+}
+
+.mat-column-seeds .mat-column-name {
+  flex: 0 0 40%;
+  max-width: 40%;
+}
+
+.mat-column-category {
+  width: 7%;
+  text-align: center;
+  word-wrap: unset;
+}
+
+.mat-column-seeds,
+.mat-column-size,
+.mat-column-uploadDate,
+.mat-column-uploader {
+  width: 12%;
+  text-align: center;
+  word-wrap: unset;
+}
+
+@media (max-width: 768px) {
+  .mat-column-uploadDate {
+    display: none;
+  }
+}

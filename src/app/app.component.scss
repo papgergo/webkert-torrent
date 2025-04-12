@@ -1,0 +1,56 @@
+mat-toolbar {
+  background-color: var(--background-color);
+}
+mat-sidenav {
+  background-color: var(--background-color-secondary);
+}
+mat-sidenav-container {
+  height: 100%;
+  background-color: #1c1d22;
+}
+
+.active a {
+  color: var(--mat-sys-primary);
+}
+ul a {
+  text-decoration: none;
+}
+
+li:hover {
+  text-decoration: underline;
+}
+
+ul li {
+  margin-right: 15px;
+  margin-left: 15px;
+  display: block;
+  max-width: 100px;
+  width: 100%;
+}
+ul {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  list-style: none;
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  gap: 50px;
+}
+nav {
+  display: block;
+  margin: auto;
+}
+.nav-button {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .nav-button {
+    display: flex;
+  }
+  nav {
+    display: none;
+  }
+}

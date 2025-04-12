@@ -1,1 +1,64 @@
-<p>register works!</p>
+<div class="mat-elevation-z8 register-container">
+  <div class="form-container">
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <table>
+        <thead>
+          <tr>
+            <th><h2>Register</h2></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Email:</td>
+          </tr>
+          <tr>
+            <td>
+              <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>Username:</td>
+          </tr>
+          <tr>
+            <td>
+              <mat-form-field>
+                <mat-label>Username</mat-label>
+                <input matInput formControlName="username" />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>Password:</td>
+          </tr>
+          <tr>
+            <td>
+              <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input matInput formControlName="password" />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>Confirm Password:</td>
+          </tr>
+          <tr>
+            <td>
+              <mat-form-field>
+                <mat-label>Confirm Password</mat-label>
+                <input matInput formControlName="confPassword" />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td class="submit-button">
+              <button mat-flat-button type="submit">Register</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>

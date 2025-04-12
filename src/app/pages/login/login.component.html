@@ -1,1 +1,42 @@
-<p>login works!</p>
+<div class="mat-elevation-z8 login-container">
+  <div class="form-container">
+    <form action="" [formGroup]="loginForm" (ngSubmit)="login()">
+      <table>
+        <thead>
+          <tr>
+            <th><h2>Login</h2></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Email:</td>
+          </tr>
+          <tr>
+            <td>
+              <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>Password:</td>
+          </tr>
+          <tr>
+            <td>
+              <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input matInput formControlName="password" />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td class="submit-button">
+              <button mat-flat-button type="submit">Login</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>
