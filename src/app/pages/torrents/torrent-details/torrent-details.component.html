@@ -5,7 +5,7 @@
     </div>
   </div>
   <div class="torrent-details">
-    <div class="torrent-description">
+    <div class="torrent-info">
       <ul>
         <li>Category: {{ torrent.category.name }}</li>
         <li>Size: {{ torrent.size }}</li>
@@ -15,9 +15,15 @@
     </div>
     <div class="torrent-options">
       <ul>
-        <li>Download Torrent</li>
-        <li>Magnet Download</li>
+        <li><button mat-fab extended>Download Torrent</button></li>
+        <li><button mat-fab extended>Magnet Download</button></li>
       </ul>
     </div>
+  </div>
+  <div class="torrent-description">
+    <div class="image-container">
+      <img src="{{ torrent.coverImageUrl }}" alt="Torrent Cover Image" />
+    </div>
+    <div class="torrent-text">{{ torrent.description }}</div>
   </div>
 </div>

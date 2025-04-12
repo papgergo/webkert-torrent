@@ -8,7 +8,7 @@
     <ng-container matColumnDef="category">
       <th mat-header-cell *matHeaderCellDef>Category</th>
       <td mat-cell *matCellDef="let torrent">
-        <a [routerLink]="['/category', torrent.category.id]">
+        <a [routerLink]="['/category', torrent.category.name]">
           <mat-icon>{{ getCategoryIcon(torrent.category.name) }}</mat-icon>
         </a>
       </td>

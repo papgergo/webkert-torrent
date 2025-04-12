@@ -7,6 +7,5 @@ export enum CategoryEnum {
 }
 
 export interface Category {
-  id: number;
   name: keyof typeof CategoryEnum;
 }

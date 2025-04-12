@@ -1,0 +1,74 @@
+[
+  {
+    "id": 0,
+    "category": { "name": "MOVIE" },
+    "name": "Kedvenc film",
+    "seeds": 20,
+    "size": "10 GB",
+    "uploadDate": "2024-04-12T13:55:00.000Z",
+    "uploader": {
+      "id": 0,
+      "email": "pista@gmail.hu",
+      "name": "Pista",
+      "password": "",
+      "profilePictureUrl": "",
+      "joinDate": "2024-04-12T13:55:00.000Z"
+    },
+    "description": "A világ legjobb filmje:)",
+    "coverImageUrl": "img/GoNk7Y3WgAA1syz.jpg"
+  },
+  {
+    "id": 1,
+    "category": { "name": "GAME" },
+    "name": "Kedvenc film",
+    "seeds": 20,
+    "size": "15 GB",
+    "uploadDate": "2024-04-12T13:55:00.000Z",
+    "uploader": {
+      "id": 0,
+      "email": "pista@gmail.hu",
+      "name": "Pista",
+      "password": "",
+      "profilePictureUrl": "",
+      "joinDate": "2024-04-12T13:55:00.000Z"
+    },
+    "description": "kep:)",
+    "coverImageUrl": "img/wpioafwpaijgfwia.png"
+  },
+  {
+    "id": 2,
+    "category": { "name": "SONG" },
+    "name": "Kedvenc film",
+    "seeds": 20,
+    "size": "20 GB",
+    "uploadDate": "2024-04-12T13:55:00.000Z",
+    "uploader": {
+      "id": 0,
+      "email": "pista@gmail.hu",
+      "name": "Pista",
+      "password": "",
+      "profilePictureUrl": "",
+      "joinDate": "2024-04-12T13:55:00.000Z"
+    },
+    "description": "asd",
+    "coverImageUrl": "asd"
+  },
+  {
+    "id": 3,
+    "category": {"name": "PROGRAM" },
+    "name": "Kedvenc film",
+    "seeds": 20,
+    "size": "25 GB",
+    "uploadDate": "2024-04-12T13:55:00.000Z",
+    "uploader": {
+      "id": 0,
+      "email": "pista@gmail.hu",
+      "name": "Pista",
+      "password": "",
+      "profilePictureUrl": "",
+      "joinDate": "2024-04-12T13:55:00.000Z"
+    },
+    "description": "asd",
+    "coverImageUrl": "asd"
+  }
+] 

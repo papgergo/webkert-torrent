@@ -24,19 +24,57 @@
   flex-basis: 0;
 }
 
-.torrent-description {
+.torrent-info {
   background-color: var(--background-color-secondary);
   margin: 10px;
   flex-grow: 1;
   flex-basis: 0;
 }
 
-.torrent-description ul {
+.torrent-info ul {
   list-style: none;
   padding: 5px;
 }
 
-.torrent-description ul li {
+.torrent-info ul li {
   padding: 10px;
   border-bottom: 1px solid var(--mat-sys-on-background);
+}
+
+.torrent-options ul {
+  list-style: none;
+  text-align: center;
+  height: 100%;
+  padding-left: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  li {
+    margin-bottom: 15px;
+  }
+}
+
+.image-container {
+  width: 200px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+.image-container img {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .torrent-details {
+    flex-direction: column;
+  }
+  .torrent-options ul {
+    margin: auto;
+  }
+  .torrent-description {
+    margin: 10px 0;
+  }
 }
