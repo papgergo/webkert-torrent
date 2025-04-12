@@ -24,6 +24,9 @@
     <div class="image-container">
       <img src="{{ torrent.coverImageUrl }}" alt="Torrent Cover Image" />
     </div>
-    <div class="torrent-text">{{ torrent.description }}</div>
+    <div class="torrent-text">
+      <h2>{{ torrent.name }}</h2>
+      <p>{{ torrent.description }}</p>
+    </div>
   </div>
 </div>

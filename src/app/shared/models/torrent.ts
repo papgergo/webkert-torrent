@@ -4,7 +4,7 @@ import { User } from './user';
 export interface Torrent {
   id: number;
   uploader: User;
-  name: string | 'Anonymous';
+  name: string;
   size: string;
   category: Category;
   seeds: number;

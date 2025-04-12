@@ -20,7 +20,6 @@ export class TorrentDetailsComponent implements OnInit {
     this.torrentService.getTorrent(this.torrentId).subscribe((t) => {
       if (t) {
         this.torrent = t;
-        console.log(t);
       }
     });
   }
