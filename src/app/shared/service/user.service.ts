@@ -9,10 +9,24 @@ export class UserService {
   constructor() {}
 
   getUser(userEmail: string) {
-    return localStorage.getItem(userEmail);
+    const userData = localStorage.getItem(userEmail);
+    return userData ? JSON.parse(userData) : null;
   }
 
   addUser(newUser: User) {
-    localStorage.setItem(newUser.email, newUser.password);
+    localStorage.setItem(newUser.email, JSON.stringify(newUser));
+  }
+
+  getLoggedInUser() {
+    const userEmail = localStorage.getItem('loggedInUser');
+    if (!userEmail) return null;
+    return this.getUser(userEmail);
+  }
+
+  logout() {
+    const userEmail: string | null = localStorage.getItem('loggedInUser');
+    localStorage.removeItem(userEmail!);
+    localStorage.removeItem('loggedInUser');
+    localStorage.setItem('isLoggedIn', 'false');
   }
 }

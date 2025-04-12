@@ -19,15 +19,21 @@
           <li [routerLinkActive]="['active']">
             <a routerLink="/torrents">Torrents</a>
           </li>
+          @if (loggedInUser != null) {
           <li [routerLinkActive]="['active']">
-            <a routerLink="/profile">Profile</a>
+            <a routerLink="/profile/{{ loggedInUser.id }}">Profile</a>
           </li>
+          <li>
+            <a (click)="logout()">Logout</a>
+          </li>
+          } @else {
           <li [routerLinkActive]="['active']">
             <a routerLink="/register">Register</a>
           </li>
           <li [routerLinkActive]="['active']">
             <a routerLink="/login">Login</a>
           </li>
+          }
         </ul>
       </nav>
     </mat-toolbar>

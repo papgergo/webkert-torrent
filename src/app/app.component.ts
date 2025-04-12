@@ -5,6 +5,8 @@ import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { User } from './shared/models/user';
+import { UserService } from './shared/service/user.service';
 
 @Component({
   selector: 'app-root',
@@ -21,11 +23,21 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  title = 'torrent-webpage';
+  public loggedInUser?: User;
 
-  ngOnInit(): void {}
+  constructor(private userService: UserService) {}
+  ngOnInit(): void {
+    this.loggedInUser = this.userService.getLoggedInUser();
+    console.log(this.loggedInUser);
+  }
 
   onToggleSidenav(sidenav: MatSidenav) {
     sidenav.toggle();
+  }
+
+  logout() {
+    this.userService.logout();
+    this.loggedInUser = undefined;
+    window.location.href = 'home';
   }
 }

@@ -42,10 +42,12 @@ export class LoginComponent {
     }
 
     const email = this.loginForm.value.email || '';
-    const passw = this.loginForm.get('password')?.value;
+    const password = this.loginForm.get('password')?.value;
 
-    if (this.userService.getUser(email)) {
+    const user = this.userService.getUser(email);
+    if (user && user.password === password) {
       localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('loggedInUser', email);
       window.location.href = '/home';
     }
   }

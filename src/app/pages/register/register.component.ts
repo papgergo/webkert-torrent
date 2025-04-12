@@ -70,6 +70,7 @@ export class RegisterComponent {
       name: username,
       password: passw,
       profilePictureUrl: '',
+      joinDate: new Date(Date.now()),
     };
 
     this.userService.addUser(newUser);

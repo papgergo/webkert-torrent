@@ -25,7 +25,7 @@ export const routes: Routes = [
     component: TorrentDetailsComponent,
   },
   {
-    path: 'profile',
+    path: 'profile/:profileId',
     component: ProfileComponent,
   },
   {
