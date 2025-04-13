@@ -2,10 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { User } from '../../shared/models/user';
 import { DatePipe } from '@angular/common';
 import { UserService } from '../../shared/service/user.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-profile',
-  imports: [DatePipe],
+  imports: [DatePipe, MatCardModule, MatDividerModule, MatIcon],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })

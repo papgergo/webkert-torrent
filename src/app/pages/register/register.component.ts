@@ -72,11 +72,13 @@ export class RegisterComponent {
       email: email,
       name: username,
       password: passw,
-      profilePictureUrl: '',
+      profilePictureUrl: 'img/default_profile_picture.png',
       joinDate: new Date(Date.now()),
     };
 
     this.userService.addUser(newUser);
+    localStorage.setItem('loggedInUser', newUser.email);
+    localStorage.setItem('isLoggedIn', 'true');
     window.location.href = '/home';
   }
 }

@@ -5,10 +5,11 @@ import { DatePipe } from '@angular/common';
 import { MatButton, MatFabButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-torrent-details',
-  imports: [DatePipe, MatFabButton, MatCardModule, MatDivider],
+  imports: [DatePipe, MatFabButton, MatCardModule, MatDivider, MatIcon],
   templateUrl: './torrent-details.component.html',
   styleUrl: './torrent-details.component.scss',
 })
