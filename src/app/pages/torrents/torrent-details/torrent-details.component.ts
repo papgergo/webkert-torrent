@@ -17,10 +17,6 @@ export class TorrentDetailsComponent implements OnInit {
   constructor(private torrentService: TorrentService) {}
 
   ngOnInit(): void {
-    this.torrentService.getTorrent(this.torrentId).subscribe((t) => {
-      if (t) {
-        this.torrent = t;
-      }
-    });
+    this.torrent = this.torrentService.getTorrent(this.torrentId)!;
   }
 }

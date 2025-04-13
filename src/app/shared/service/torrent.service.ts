@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Torrent } from '../models/torrent';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
 import torrents from '../../../../public/torrents.json';
 import { CategoryEnum } from '../models/category';
 
@@ -26,8 +24,7 @@ export class TorrentService {
     return this.torrentCollection;
   }
 
-  getTorrent(torrentId: number): Observable<Torrent | undefined> {
-    const foundTorrent = this.torrentCollection.find((t) => t.id == torrentId);
-    return of(foundTorrent);
+  getTorrent(torrentId: number): Torrent | undefined {
+    return this.torrentCollection.find((t) => t.id == torrentId);
   }
 }
