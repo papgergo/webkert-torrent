@@ -11,16 +11,22 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { UserService } from '../../shared/service/user.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
   imports: [
     MatFormFieldModule,
-    MatInputModule,
     MatSelectModule,
     ReactiveFormsModule,
     CommonModule,
     MatButtonModule,
+    MatInputModule,
+    MatCardModule,
+    MatDividerModule,
+    MatIconModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',

@@ -1,6 +1,9 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav>
-    <app-menu [sidenav]="sidenav"></app-menu>
+    <app-menu
+      [sidenav]="sidenav"
+      (pageTitleChange)="changeCurrentPageTitle($event)"
+    ></app-menu>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar>
@@ -11,26 +14,42 @@
       >
         <mat-icon>menu</mat-icon>
       </button>
+      <h3 class="currentPageTitle">{{ currentPageTitle }}</h3>
       <nav>
         <ul>
-          <li [routerLinkActive]="['active']">
+          <li
+            [routerLinkActive]="['active']"
+            (click)="changeCurrentPageTitle('Home')"
+          >
             <a routerLink="/home">Home</a>
           </li>
-          <li [routerLinkActive]="['active']">
+          <li
+            [routerLinkActive]="['active']"
+            (click)="changeCurrentPageTitle('Torrents')"
+          >
             <a routerLink="/torrents">Torrents</a>
           </li>
-          @if (loggedInUser != null) {
-          <li [routerLinkActive]="['active']">
+          @if (loggedInUser != undefined) {
+          <li
+            [routerLinkActive]="['active']"
+            (click)="changeCurrentPageTitle('Profile')"
+          >
             <a routerLink="/profile/{{ loggedInUser.id }}">Profile</a>
           </li>
           <li>
             <a (click)="logout()">Logout</a>
           </li>
           } @else {
-          <li [routerLinkActive]="['active']">
+          <li
+            [routerLinkActive]="['active']"
+            (click)="changeCurrentPageTitle('Register')"
+          >
             <a routerLink="/register">Register</a>
           </li>
-          <li [routerLinkActive]="['active']">
+          <li
+            [routerLinkActive]="['active']"
+            (click)="changeCurrentPageTitle('Login')"
+          >
             <a routerLink="/login">Login</a>
           </li>
           }

@@ -1,21 +1,27 @@
 <mat-nav-list>
-  <a mat-list-item routerLink="/home" (click)="closeMenu()">
+  <a mat-list-item routerLink="/home" (click)="closeMenu('Home')">
     <mat-icon matListItemIcon>home</mat-icon>
     <span matListItemTitle>Home</span>
   </a>
-  <a mat-list-item routerLink="/torrents" (click)="closeMenu()">
+  <a mat-list-item routerLink="/torrents" (click)="closeMenu('Torrents')">
     <mat-icon matListItemIcon>movie</mat-icon>
     <span matListItemTitle>Torrents</span>
   </a>
-  <a mat-list-item routerLink="/profile" (click)="closeMenu()">
+  @if (loggedInUser != undefined) {
+  <a
+    mat-list-item
+    routerLink="/profile/{{ loggedInUser.id }}"
+    (click)="closeMenu('Profile')"
+  >
     <mat-icon matListItemIcon>person_outline</mat-icon>
     <span matListItemTitle>Profile</span>
   </a>
-  <a mat-list-item routerLink="/register" (click)="closeMenu()">
-    <mat-icon matListItemIcon>signup</mat-icon>
+  }
+  <a mat-list-item routerLink="/register" (click)="closeMenu('Register')">
+    <mat-icon matListItemIcon>how_to_reg</mat-icon>
     <span matListItemTitle>Register</span>
   </a>
-  <a mat-list-item routerLink="/login" (click)="closeMenu()">
+  <a mat-list-item routerLink="/login" (click)="closeMenu('Login')">
     <mat-icon matListItemIcon>login</mat-icon>
     <span matListItemTitle>Login</span>
   </a>

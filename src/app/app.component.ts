@@ -24,15 +24,20 @@ import { UserService } from './shared/service/user.service';
 })
 export class AppComponent implements OnInit {
   public loggedInUser?: User;
+  public currentPageTitle!: string;
 
   constructor(private userService: UserService) {}
   ngOnInit(): void {
     this.loggedInUser = this.userService.getLoggedInUser();
-    console.log(this.loggedInUser);
+    this.currentPageTitle = 'Home';
   }
 
   onToggleSidenav(sidenav: MatSidenav) {
     sidenav.toggle();
+  }
+
+  changeCurrentPageTitle(title: string) {
+    this.currentPageTitle = title;
   }
 
   logout() {

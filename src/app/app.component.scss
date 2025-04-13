@@ -54,3 +54,15 @@ nav {
     display: none;
   }
 }
+
+.currentPageTitle {
+  display: none;
+  margin-left: 16px;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .currentPageTitle {
+    display: block;
+  }
+}

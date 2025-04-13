@@ -3,14 +3,15 @@ import { Component } from '@angular/core';
 import {
   FormControl,
   FormGroup,
-  NgForm,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 import { User } from '../../shared/models/user';
 import { UserService } from '../../shared/service/user.service';
 
@@ -19,7 +20,9 @@ import { UserService } from '../../shared/service/user.service';
   imports: [
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
+    MatCardModule,
+    MatDividerModule,
+    MatIconModule,
     ReactiveFormsModule,
     CommonModule,
     MatButtonModule,
@@ -69,11 +72,13 @@ export class RegisterComponent {
       email: email,
       name: username,
       password: passw,
-      profilePictureUrl: '',
+      profilePictureUrl: 'img/default_profile_picture.png',
       joinDate: new Date(Date.now()),
     };
 
     this.userService.addUser(newUser);
+    localStorage.setItem('loggedInUser', newUser.email);
+    localStorage.setItem('isLoggedIn', 'true');
     window.location.href = '/home';
   }
 }
