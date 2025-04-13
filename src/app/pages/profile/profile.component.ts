@@ -8,7 +8,7 @@ import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-profile',
-  imports: [DatePipe, MatCardModule, MatDividerModule, MatIcon],
+  imports: [DatePipe, MatCardModule, MatDividerModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
