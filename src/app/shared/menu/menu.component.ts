@@ -5,6 +5,8 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { User } from '../models/user';
 import { UserService } from '../service/user.service';
+import { AuthService } from '../service/auth.service';
+import { User as FireUser } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-menu',
@@ -13,18 +15,26 @@ import { UserService } from '../service/user.service';
   styleUrl: './menu.component.scss',
 })
 export class MenuComponent implements OnInit {
-  public loggedInUser?: User;
+  public loggedInUser?: FireUser;
   @Input() sidenav!: MatSidenav;
+  @Input() isLoggedIn?: boolean = false;
   @Output() pageTitleChange = new EventEmitter<string>();
+  @Output() logoutEvent = new EventEmitter<void>();
 
-  constructor(private userService: UserService) {}
+  constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {
-    this.loggedInUser = this.userService.getLoggedInUser();
-  }
+  ngOnInit(): void {}
 
   closeMenu(title: string) {
     this.sidenav.toggle();
     this.pageTitleChange.emit(title);
+  }
+
+  logout() {
+    this.authService.signOut().then(() => {
+      this.isLoggedIn = false;
+      this.logoutEvent.emit();
+      this.closeMenu('Home');
+    });
   }
 }

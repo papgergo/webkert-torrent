@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   FormControl,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -14,6 +15,10 @@ import { UserService } from '../../shared/service/user.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from '../../shared/service/auth.service';
+import { Subscription } from 'rxjs';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -27,34 +32,65 @@ import { MatIconModule } from '@angular/material/icon';
     MatCardModule,
     MatDividerModule,
     MatIconModule,
+    MatProgressSpinner,
+    FormsModule,
+    RouterLink,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
-  constructor(private userService: UserService) {}
-
-  loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(6),
-    ]),
-  });
+export class LoginComponent implements OnDestroy {
+  public loginError!: string;
+  authSubscription?: Subscription;
+  isLoading = false;
+  constructor(
+    private userService: UserService,
+    private authService: AuthService
+  ) {}
+  email = new FormControl('', [Validators.required, Validators.email]);
+  password = new FormControl('', [
+    Validators.required,
+    Validators.minLength(6),
+  ]);
 
   login() {
-    if (this.loginForm.invalid) {
+    if (this.email.invalid) {
       return;
     }
 
-    const email = this.loginForm.value.email || '';
-    const password = this.loginForm.get('password')?.value;
-
-    const user = this.userService.getUser(email);
-    if (user && user.password === password) {
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('loggedInUser', email);
-      window.location.href = '/home';
+    if (this.password.invalid) {
+      return;
     }
+    const email = this.email.value || '';
+    const password = this.password.value || '';
+    this.loginError = '';
+    this.isLoading = true;
+
+    this.authService
+      .signIn(email, password)
+      .then(() => {
+        this.authService.updateLoginStatus(true);
+        window.location.href = '/home';
+      })
+      .catch((err) => {
+        this.isLoading = false;
+        switch (err.code) {
+          case 'auth/user-not-found':
+            this.loginError = 'No user found';
+            break;
+          case 'auth/wrong-password':
+            this.loginError = 'Incorrect password';
+            break;
+          case 'auth/invalid-credential':
+            this.loginError = 'Invalid email or password';
+            break;
+          default:
+            this.loginError = 'Error occoured. Please try again';
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.authSubscription?.unsubscribe();
   }
 }

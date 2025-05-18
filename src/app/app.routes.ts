@@ -5,6 +5,7 @@ import { TorrentDetailsComponent } from './pages/torrents/torrent-details/torren
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { authGuard, publicGuard } from './shared/guard/auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -27,14 +28,17 @@ export const routes: Routes = [
   {
     path: 'profile/:profileId',
     component: ProfileComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'register',
     component: RegisterComponent,
+    canActivate: [publicGuard],
   },
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [publicGuard],
   },
   {
     path: '**',

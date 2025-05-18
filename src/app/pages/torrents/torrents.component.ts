@@ -6,8 +6,11 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CategoryEnum } from '../../shared/models/category';
 import { MatIconModule } from '@angular/material/icon';
 import { TorrentService } from '../../shared/service/torrent.service';
+import { RouterLink } from '@angular/router';
+import { map, Observable, switchMap } from 'rxjs';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { DatePipe } from '@angular/common';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { TimestampToDatePipe } from '../../pipes/timestamp-to-date.pipe';
 
 @Component({
   selector: 'app-torrents',
@@ -16,16 +19,20 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     MatPaginatorModule,
     MatTableModule,
     MatIconModule,
-    DatePipe,
     RouterLink,
+    MatProgressSpinner,
+    DatePipe,
+    TimestampToDatePipe,
   ],
   templateUrl: './torrents.component.html',
   styleUrl: './torrents.component.scss',
 })
 export class TorrentsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  torrentCollection: Torrent[] = [];
+  public CategoryEnum = CategoryEnum;
+  torrentcategory: string = '';
+  isLoading = true;
+  torrentCollection$!: Observable<Torrent[]>;
   dataSource!: MatTableDataSource<Torrent>;
   expandedTorrent: Torrent | null = null;
   displayedColumns: Map<string, string> = new Map([
@@ -40,12 +47,12 @@ export class TorrentsComponent implements OnInit {
   constructor(private torrentService: TorrentService) {}
 
   ngOnInit() {
-    this.torrentCollection = this.torrentService.getTorrents();
-    this.dataSource = new MatTableDataSource<Torrent>(this.torrentCollection);
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+    this.torrentCollection$ = this.torrentService.getTorrentCollection();
+    this.torrentCollection$.subscribe((torrents) => {
+      this.dataSource = new MatTableDataSource<Torrent>(torrents);
+      this.dataSource.paginator = this.paginator;
+      this.isLoading = false;
+    });
   }
 
   getCategoryIcon(categoryName: string): string {

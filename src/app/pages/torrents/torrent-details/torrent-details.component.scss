@@ -59,6 +59,12 @@ mat-card-content {
   background-color: var(--background-color-secondary);
 }
 
+.torrent-comments {
+  border-radius: 5px;
+  margin: 10px;
+  background-color: var(--background-color-secondary);
+}
+
 .image-container {
   width: 200px;
   max-height: 300px;
@@ -89,6 +95,28 @@ mat-card-content {
   flex-direction: row;
 }
 
+.comment {
+  display: flex;
+  flex-direction: row;
+  margin-top: 15px;
+}
+
+.profile-picture {
+  border-radius: 15px;
+  background-color: var(--mat-sys-primary-container);
+  width: 64px;
+  height: 64px;
+  padding: 10px;
+}
+
+.comment-details {
+  border-radius: 15px;
+  padding: 5px;
+  width: 100%;
+  height: auto;
+  margin-left: 15px;
+}
+
 @media (max-width: 768px) {
   .title-container {
     border-radius: 0;
@@ -102,7 +130,8 @@ mat-card-content {
     margin: auto;
   }
   .torrent-description,
-  .torrent-info {
+  .torrent-info,
+  .torrent-comments {
     border-radius: 0px;
     margin: 10px 0;
   }

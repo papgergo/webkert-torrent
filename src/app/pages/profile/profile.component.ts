@@ -4,23 +4,38 @@ import { DatePipe } from '@angular/common';
 import { UserService } from '../../shared/service/user.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatIcon } from '@angular/material/icon';
+import { Subscription } from 'rxjs';
+import { Torrent } from '../../shared/models/torrent';
 
 @Component({
   selector: 'app-profile',
-  imports: [DatePipe, MatCardModule, MatDividerModule],
+  imports: [MatCardModule, MatDividerModule, MatDividerModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent implements OnInit {
-  @Input() profile!: User;
+  user: User | null = null;
+  isLoading = false;
+  @Input() profileId!: string;
+
+  torrents: Torrent[] = [];
+  private subscription: Subscription | null = null;
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    const loggedInUser = this.userService.getLoggedInUser();
-    if (loggedInUser) {
-      this.profile = this.userService.getUser(loggedInUser.email);
-    }
+    this.loadUserProfile();
+  }
+
+  loadUserProfile() {
+    this.isLoading = true;
+    this.subscription = this.userService.getUserProfile().subscribe({
+      next: (data) => {
+        if (data != null) {
+          this.user = data;
+          this.isLoading = false;
+        }
+      },
+    });
   }
 }

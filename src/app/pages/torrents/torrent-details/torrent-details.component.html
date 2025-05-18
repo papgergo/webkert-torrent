@@ -1,20 +1,25 @@
 <div class="mat-elevation-z8 torrent-container">
   <div class="torrent-header">
     <div class="title-container">
-      <h2>{{ torrent.name }}</h2>
+      <h2>{{ torrent?.name }}</h2>
     </div>
   </div>
   <div class="torrent-details">
     <mat-card class="torrent-info">
       <mat-card-content>
         <div>
-          <p>Category: {{ torrent.category.name }}</p>
+          <p>Category: {{ torrent?.category }}</p>
           <mat-divider></mat-divider>
-          <p>Size: {{ torrent.size }}</p>
+
+          <p>Size: {{ torrent?.size }}</p>
           <mat-divider></mat-divider>
-          <p>Upload Date: {{ torrent.uploadDate | date : "mediumDate" }}</p>
+          <p>
+            Upload Date:
+            {{ torrent?.uploadDate | timestampToDate | date : "mediumDate"
+            }}<!-- | date : "mediumDate" -->
+          </p>
           <mat-divider></mat-divider>
-          <p>Uploader: {{ torrent.uploader.name }}</p>
+          <p>Uploader: {{ torrent?.uploader?.name }}</p>
           <mat-divider></mat-divider>
         </div>
       </mat-card-content>
@@ -37,12 +42,65 @@
   <mat-card class="torrent-description">
     <mat-card-content class="description">
       <div class="image-container">
-        <img src="{{ torrent.coverImageUrl }}" alt="Torrent Cover Image" />
+        <img src="{{ torrent?.coverImageUrl }}" alt="Torrent Cover Image" />
       </div>
       <div class="torrent-text">
-        <h2>{{ torrent.name }}</h2>
-        <p>{{ torrent.description }}</p>
+        <h2>{{ torrent?.name }}</h2>
+        <p>{{ torrent?.description }}</p>
       </div>
     </mat-card-content>
   </mat-card>
+  @if (isLoading) {
+  <div class="spinner-container">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+
+  } @else {
+
+  <mat-card class="torrent-comments">
+    <mat-card-header>
+      <mat-card-title>Comments</mat-card-title>
+    </mat-card-header>
+    @if (loggedInUser) {
+    <mat-card-content>
+      <img [src]="loggedInUser.profilePictureUrl" alt="User" />
+      <form (ngSubmit)="onCreateComment()" class="comment-form">
+        <mat-form-field class="comment-input">
+          <textarea
+            matInput
+            placeholder="Write a comment..."
+            name="commentText"
+            [(ngModel)]="newCommentText"
+            rows="3"
+          ></textarea>
+        </mat-form-field>
+        <button mat-fab extended type="submit" [disabled]="!newCommentText">
+          Post Comment
+        </button>
+      </form>
+    </mat-card-content>
+    }
+
+    <mat-card-content>
+      @for (item of commentCollection$ | async; track $index) {
+      <div class="comment">
+        <img
+          [src]="item.user.profilePictureUrl"
+          alt="User"
+          class="profile-picture"
+        />
+        <div class="comment-details">
+          <p>
+            <strong>{{ item.user.name }}</strong>
+          </p>
+          <p>
+            {{ item.comment.text }}
+          </p>
+        </div>
+        <mat-divider></mat-divider>
+      </div>
+      }
+    </mat-card-content>
+  </mat-card>
+  }
 </div>

@@ -1,11 +1,11 @@
 export enum CategoryEnum {
-  MOVIE = 'movie',
-  GAME = 'sports_esports',
-  SONG = 'music_note',
-  PROGRAM = 'computer',
-  BOOK = 'menu_book',
+  'MOVIE' = 'movie',
+  'GAME' = 'sports_esports',
+  'SONG' = 'music_note',
+  'PROGRAM' = 'computer',
+  'BOOK' = 'menu_book',
 }
 
 export interface Category {
-  name: keyof typeof CategoryEnum;
+  name: CategoryEnum;
 }

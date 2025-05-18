@@ -5,8 +5,10 @@ import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { User } from './shared/models/user';
+import { User as FireUser } from './shared/models/user';
 import { UserService } from './shared/service/user.service';
+import { AuthService } from './shared/service/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -23,13 +25,21 @@ import { UserService } from './shared/service/user.service';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  public loggedInUser?: User;
+  public isLoggedIn? = false;
   public currentPageTitle!: string;
+  public loggedInUser: string | null = null;
+  private authSubscription?: Subscription;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private authService: AuthService
+  ) {}
   ngOnInit(): void {
-    this.loggedInUser = this.userService.getLoggedInUser();
-    this.currentPageTitle = 'Home';
+    this.authSubscription = this.authService.user.subscribe((user) => {
+      this.isLoggedIn = !!user;
+      this.loggedInUser = user ? user.uid : null;
+      this.authService.updateLoginStatus(this.isLoggedIn);
+    });
   }
 
   onToggleSidenav(sidenav: MatSidenav) {
@@ -41,8 +51,6 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    this.userService.logout();
-    this.loggedInUser = undefined;
-    window.location.href = 'home';
+    this.authService.signOut();
   }
 }

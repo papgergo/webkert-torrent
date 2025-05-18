@@ -1,20 +1,19 @@
 <div class="mat-elevation-z8 profile-container">
   <div class="profile-header">
     <div class="title-container">
-      <h2>{{ profile.name }}</h2>
+      <!-- <h2>{{ profile.name }}</h2> -->
     </div>
     <div class="profile-details">
       <div class="profile-info">
         <ul>
-          <li>Username: {{ profile.name }}</li>
-          <li>
-            Profile Creation Date: {{ profile.joinDate | date : "mediumDate" }}
-          </li>
+          <li>Username: {{ user?.name }}</li>
+          <li>Profile Creation Date: {{ user?.joinDate }}</li>
         </ul>
       </div>
+      <mat-divider></mat-divider>
       <div class="profile-picture">
         <div class="image-container">
-          <img src="{{ profile.profilePictureUrl }}" alt="Profile Picture" />
+          <img src="{{ user?.profilePictureUrl }}" alt="Profile Picture" />
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@ import { Category } from './category';
 import { User } from './user';
 
 export interface Torrent {
-  id: number;
+  id: string;
   uploader: User;
   name: string;
   size: string;

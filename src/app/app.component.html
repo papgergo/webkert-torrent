@@ -3,6 +3,8 @@
     <app-menu
       [sidenav]="sidenav"
       (pageTitleChange)="changeCurrentPageTitle($event)"
+      (logoutEvent)="logout()"
+      [isLoggedIn]="isLoggedIn"
     ></app-menu>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -29,15 +31,15 @@
           >
             <a routerLink="/torrents">Torrents</a>
           </li>
-          @if (loggedInUser != undefined) {
+          @if (isLoggedIn) {
           <li
             [routerLinkActive]="['active']"
             (click)="changeCurrentPageTitle('Profile')"
           >
-            <a routerLink="/profile/{{ loggedInUser.id }}">Profile</a>
+            <a routerLink="/profile/{{ loggedInUser }}">Profile</a>
           </li>
-          <li>
-            <a (click)="logout()">Logout</a>
+          <li (click)="logout()">
+            <a routerLink="/home">Logout</a>
           </li>
           } @else {
           <li

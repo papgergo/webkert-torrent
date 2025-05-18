@@ -14,6 +14,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { User } from '../../shared/models/user';
 import { UserService } from '../../shared/service/user.service';
+import { AuthService } from '../../shared/service/auth.service';
+import { Router, RouterLink } from '@angular/router';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-register',
@@ -26,12 +29,20 @@ import { UserService } from '../../shared/service/user.service';
     ReactiveFormsModule,
     CommonModule,
     MatButtonModule,
+    MatProgressSpinner,
+    RouterLink,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
-  constructor(private userService: UserService) {
+  isLoading: boolean = false;
+  signupError: string = '';
+  constructor(
+    private userService: UserService,
+    private authService: AuthService,
+    private router: Router
+  ) {
     localStorage.clear();
   }
 
@@ -67,18 +78,38 @@ export class RegisterComponent {
       return;
     }
 
-    const newUser: User = {
-      id: 0,
-      email: email,
+    const userData: Partial<User> = {
       name: username,
-      password: passw,
       profilePictureUrl: 'img/default_profile_picture.png',
-      joinDate: new Date(Date.now()),
+      joinDate: new Date(),
     };
 
-    this.userService.addUser(newUser);
-    localStorage.setItem('loggedInUser', newUser.email);
-    localStorage.setItem('isLoggedIn', 'true');
-    window.location.href = '/home';
+    this.authService
+      .signUp(email, passw, userData)
+      .then((userCredential) => {
+        console.log('Registration succesful:', userCredential.user);
+        this.authService.updateLoginStatus(true);
+        this.router.navigateByUrl('/home');
+      })
+      .catch((error) => {
+        console.error('Regisztrációs hiba:', error);
+        this.isLoading = false;
+
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            this.signupError = 'This email already in use.';
+            break;
+          case 'auth/invalid-email':
+            this.signupError = 'Invalid email.';
+            break;
+          case 'auth/weak-password':
+            this.signupError =
+              'The password is too weak. Use at least 6 characters.';
+            break;
+          default:
+            this.signupError =
+              'An error has occurred during registration. Please try again later.';
+        }
+      });
   }
 }
