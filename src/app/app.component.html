@@ -34,6 +34,12 @@
           @if (isLoggedIn) {
           <li
             [routerLinkActive]="['active']"
+            (click)="changeCurrentPageTitle('Upload')"
+          >
+            <a routerLink="/upload">Upload</a>
+          </li>
+          <li
+            [routerLinkActive]="['active']"
             (click)="changeCurrentPageTitle('Profile')"
           >
             <a routerLink="/profile/{{ loggedInUser }}">Profile</a>

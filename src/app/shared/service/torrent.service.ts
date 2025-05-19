@@ -48,6 +48,14 @@ export class TorrentService {
     return this.torrentCollection$.asObservable();
   }
 
+  getTorrentsByUploaderId(uploaderId: string): Observable<Torrent[]> {
+    return this.torrentCollection$.pipe(
+      map((torrents) =>
+        torrents.filter((torrent) => torrent.uploader.id == uploaderId)
+      )
+    );
+  }
+
   getTorrentById(torrentId: string): Observable<Torrent | undefined> {
     return this.torrentCollection$.pipe(
       map((torrents) => torrents.find((t) => t.id == torrentId))
@@ -56,7 +64,10 @@ export class TorrentService {
 
   async createTorrent(newTorrent: Torrent): Promise<void> {
     const torrentColRef = collection(this.firestore, 'Torrents');
-    await addDoc(torrentColRef, newTorrent);
+    const docRef = await addDoc(torrentColRef, newTorrent);
+    await updateDoc(doc(this.firestore, 'Torrents', docRef.id), {
+      id: docRef.id,
+    });
     this.loadTorrentCollection();
   }
 
@@ -75,6 +86,17 @@ export class TorrentService {
     this.loadTorrentCollection();
   }
 
+  async increaseTorrentSeedCount(torrentId: string): Promise<void> {
+    const torrentColRef = doc(this.firestore, 'Torrents', torrentId);
+    const torrent = await this.getTorrentById(torrentId).toPromise();
+    if (torrent) {
+      const updatedTorrent = {
+        ...torrent,
+        seeds: torrent.seeds++,
+      };
+      await updateDoc(torrentColRef, updatedTorrent);
+    }
+  }
   getTorrentsByCategory(category: string): Observable<Torrent[]> {
     return this.torrentCollection$.pipe(
       map((torrents) => torrents.filter((t) => t.category.name === category))

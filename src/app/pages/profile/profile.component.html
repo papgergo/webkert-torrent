@@ -1,21 +1,32 @@
 <div class="mat-elevation-z8 profile-container">
   <div class="profile-header">
     <div class="title-container">
-      <!-- <h2>{{ profile.name }}</h2> -->
+      <h2>{{ user?.name }}</h2>
     </div>
+    @if (isLoading) {
+    <mat-progress-spinner></mat-progress-spinner>
+    } @else {
     <div class="profile-details">
       <div class="profile-info">
         <ul>
           <li>Username: {{ user?.name }}</li>
-          <li>Profile Creation Date: {{ user?.joinDate }}</li>
+          <li>
+            Profile Creation Date:
+            {{ user?.joinDate | timestampToDate | date : "mediumDate" }}
+          </li>
         </ul>
-      </div>
-      <mat-divider></mat-divider>
-      <div class="profile-picture">
-        <div class="image-container">
-          <img src="{{ user?.profilePictureUrl }}" alt="Profile Picture" />
+        <div class="profile-picture">
+          <div class="image-container">
+            <img src="{{ user?.profilePictureUrl }}" alt="Profile Picture" />
+          </div>
         </div>
       </div>
+      <div class="uploaded-torrents-container">
+        <h2>Uploaded torrents:</h2>
+        <app-torrents [userID]="user?.id"></app-torrents>
+      </div>
     </div>
+
+    }
   </div>
 </div>

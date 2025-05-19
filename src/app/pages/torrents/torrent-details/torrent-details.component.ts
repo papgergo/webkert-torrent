@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { TorrentService } from '../../../shared/service/torrent.service';
 import { Torrent } from '../../../shared/models/torrent';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 import { MatButton, MatFabButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
@@ -14,15 +14,26 @@ import {
   MatProgressSpinner,
   MatSpinner,
 } from '@angular/material/progress-spinner';
-import { map, Observable, Subscription } from 'rxjs';
+import {
+  combineLatest,
+  map,
+  Observable,
+  of,
+  Subscription,
+  switchMap,
+} from 'rxjs';
 import { TimestampToDatePipe } from '../../../pipes/timestamp-to-date.pipe';
 import { FormsModule } from '@angular/forms';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { ConfirmDialogComponent } from '../../../shared/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { AbbreviateFileSizePipe } from '../../../pipes/abbreviate-file-size.pipe';
 
 export interface UserCommentData {
   comment: Comment;
-  user: User;
+  user: User | null;
 }
 
 @Component({
@@ -39,33 +50,55 @@ export interface UserCommentData {
     MatInputModule,
     MatFormFieldModule,
     AsyncPipe,
+    NgIf,
+    AbbreviateFileSizePipe,
   ],
   templateUrl: './torrent-details.component.html',
   styleUrl: './torrent-details.component.scss',
 })
-export class TorrentDetailsComponent implements OnInit {
+export class TorrentDetailsComponent implements OnInit, OnDestroy {
   @Input() public torrentId!: string;
   public isLoading = false; //TODO
-  public torrent?: Torrent;
+  public torrent$?: Observable<Torrent | undefined>;
   newCommentText = '';
   public loggedInUser: User | null = null;
-  public commentCollection$!: Observable<UserCommentData[]>;
-
+  public commentCollection$!: Observable<Comment[]>;
+  public userCommentData$!: Observable<UserCommentData[]>;
   private subscription: Subscription | null = null;
 
   constructor(
     private torrentService: TorrentService,
     private commentService: CommentService,
-    private userService: UserService
+    private userService: UserService,
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.commentCollection$ = this.commentService.getTorrentCommentsWithUser(
+    this.torrent$ = this.torrentService.getTorrentById(this.torrentId);
+
+    this.commentCollection$ = this.commentService.getTorrentComments(
       this.torrentId
     );
+
+    this.userCommentData$ = this.commentCollection$.pipe(
+      switchMap((comments) => {
+        if (comments.length === 0) {
+          return of([]);
+        }
+        return combineLatest(
+          comments.map((comment) =>
+            this.userService.getUserProfileById(comment.userId).pipe(
+              map((user) => ({
+                comment,
+                user,
+              }))
+            )
+          )
+        );
+      })
+    );
     this.loadUserProfile();
-    // const loggedInUser = this.userService.getLoggedInUser();
-    // this.profile = this.userService.getUserByEmail(loggedInUser.email);
   }
 
   loadUserProfile() {
@@ -80,6 +113,10 @@ export class TorrentDetailsComponent implements OnInit {
     });
   }
 
+  async increaseTorrentSeedCount() {
+    await this.torrentService.increaseTorrentSeedCount(this.torrentId);
+  }
+
   async onCreateComment() {
     if (this.newCommentText.trim() === '') {
       return;
@@ -92,5 +129,32 @@ export class TorrentDetailsComponent implements OnInit {
     };
     await this.commentService.createComment(newComment);
     this.newCommentText = '';
+  }
+
+  async onDeleteComment(commentId: string) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { title: 'Comment' },
+    });
+    const confirmed = await dialogRef.afterClosed().toPromise();
+    if (!confirmed) {
+      return;
+    }
+    await this.commentService.deleteCommentById(commentId);
+  }
+
+  async onDeleteTorrent(torrnetId: string) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { title: 'Torrent' },
+    });
+    const confirmed = await dialogRef.afterClosed().toPromise();
+    if (!confirmed) {
+      return;
+    }
+    await this.torrentService.deleteTorrentById(torrnetId);
+    this.router.navigate(['/torrents']);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

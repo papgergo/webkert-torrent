@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Torrent } from '../../shared/models/torrent';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -6,11 +6,12 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CategoryEnum } from '../../shared/models/category';
 import { MatIconModule } from '@angular/material/icon';
 import { TorrentService } from '../../shared/service/torrent.service';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map, Observable, switchMap } from 'rxjs';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { DatePipe } from '@angular/common';
 import { TimestampToDatePipe } from '../../pipes/timestamp-to-date.pipe';
+import { AbbreviateFileSizePipe } from '../../pipes/abbreviate-file-size.pipe';
 
 @Component({
   selector: 'app-torrents',
@@ -23,12 +24,14 @@ import { TimestampToDatePipe } from '../../pipes/timestamp-to-date.pipe';
     MatProgressSpinner,
     DatePipe,
     TimestampToDatePipe,
+    AbbreviateFileSizePipe,
   ],
   templateUrl: './torrents.component.html',
   styleUrl: './torrents.component.scss',
 })
 export class TorrentsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @Input() userID!: string | undefined;
   public CategoryEnum = CategoryEnum;
   torrentcategory: string = '';
   isLoading = true;
@@ -44,19 +47,47 @@ export class TorrentsComponent implements OnInit {
     ['uploader', 'Uploader'],
   ]);
 
-  constructor(private torrentService: TorrentService) {}
+  constructor(
+    private torrentService: TorrentService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    this.torrentCollection$ = this.torrentService.getTorrentCollection();
+    if (this.userID) {
+      this.torrentCollection$ = this.torrentService.getTorrentsByUploaderId(
+        this.userID
+      );
+    } else {
+      this.torrentCollection$ = this.torrentService.getTorrentCollection();
+    }
+
+    console.log(this.userID);
     this.torrentCollection$.subscribe((torrents) => {
       this.dataSource = new MatTableDataSource<Torrent>(torrents);
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;
     });
+
+    this.route.paramMap.subscribe((params) => {
+      const categoryName = params.get('categoryName');
+      if (categoryName) {
+        this.categoryFilter(categoryName);
+      } else {
+        this.clearCategoryFilter();
+      }
+    });
+  }
+
+  categoryFilter(categoryName: string) {
+    this.dataSource.filter = categoryName.trim();
+  }
+
+  clearCategoryFilter() {
+    this.dataSource.filter = '';
   }
 
   getCategoryIcon(categoryName: string): string {
-    return CategoryEnum[categoryName as keyof typeof CategoryEnum];
+    return categoryName;
   }
 
   isExpanded(torrent: Torrent) {

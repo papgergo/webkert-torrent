@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
-import users from '../../../../public/users.json';
 import { BehaviorSubject, from, Observable, of, switchMap, take } from 'rxjs';
 import { AuthService } from './auth.service';
 import { doc, Firestore, getDoc } from '@angular/fire/firestore';
@@ -13,18 +12,9 @@ export interface UserData {
   providedIn: 'root',
 })
 export class UserService {
-  userCollection = users.map((user) => ({
-    ...user,
-    id: user.id,
-    email: user.email,
-    name: user.name,
-    profilePictureUrl: user.profilePictureUrl,
-    joinDate: new Date(user.joinDate),
-  }));
-
   constructor(private firestore: Firestore, private authService: AuthService) {}
 
-  private userCollection$ = new BehaviorSubject<User[]>(this.userCollection);
+  private userCollection$ = new BehaviorSubject<User[]>([]);
 
   getUserProfile(): Observable<User | null> {
     return this.authService.user.pipe(
@@ -33,6 +23,20 @@ export class UserService {
           return of(null);
         } else {
           return from(this.fetchUserData(userAuth.uid));
+        }
+      })
+    );
+  }
+
+  getUserProfileById(userId: string): Observable<User | null> {
+    return this.userCollection$.pipe(
+      take(1),
+      switchMap((users) => {
+        const user = users.find((u) => u.id === userId);
+        if (user) {
+          return of(user);
+        } else {
+          return from(this.fetchUserData(userId));
         }
       })
     );
@@ -53,19 +57,5 @@ export class UserService {
       console.error('Hiba a felhasználói adatok betöltése során:', error);
       return null;
     }
-  }
-
-  getUserByEmail(userEmail: string) {
-    return this.userCollection.find((u) => (u.email = userEmail));
-  }
-
-  getUserById(userId: string) {
-    return this.userCollection.find((u) => (u.id = userId));
-  }
-
-  deleteUser(user: User) {
-    this.userCollection = this.userCollection.filter(
-      (u) => u.email !== user.email
-    );
   }
 }

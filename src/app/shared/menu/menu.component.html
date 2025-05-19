@@ -8,7 +8,11 @@
     <span matListItemTitle>Torrents</span>
   </a>
   @if (isLoggedIn) {
-  <a mat-list-item routerLink="/profile/" (click)="closeMenu('Profile')">
+  <a mat-list-item routerLink="/upload/" (click)="closeMenu('Upload')">
+    <mat-icon matListItemIcon>arrow_upward</mat-icon>
+    <span matListItemTitle>Upload</span>
+  </a>
+  <a mat-list-item routerLink="/Profile" (click)="closeMenu('Profile')">
     <mat-icon matListItemIcon>person_outline</mat-icon>
     <span matListItemTitle>Profile</span>
   </a>

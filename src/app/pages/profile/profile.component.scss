@@ -15,11 +15,22 @@
 
 .profile-details {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: stretch;
 }
 
 .profile-info {
+  display: flex;
+  flex-direction: row;
+}
+
+.uploaded-torrents-container {
+  padding: 15px;
+}
+
+.profile-info,
+.uploaded-torrents-container {
+  justify-content: space-between;
   border-radius: 5px;
   background-color: var(--background-color-secondary);
   margin: 10px;

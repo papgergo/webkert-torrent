@@ -1,0 +1,67 @@
+<mat-card class="mat-elevation-z8 upload-container">
+  <mat-card-header>
+    <mat-card-title>Upload Torrent</mat-card-title>
+    <mat-card-subtitle
+      >Fill in the details and upload your torrent file</mat-card-subtitle
+    >
+  </mat-card-header>
+  <mat-card-content>
+    @if (isLoading) {
+    <div class="spinner-container">
+      <h2>Uploading...</h2>
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+    } @else {
+    <form (ngSubmit)="onCreateTorrent()" [formGroup]="uploadForm">
+      <div class="form-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            rows="3"
+            required
+          ></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category" required>
+            <mat-option value="MOVIE">Movies</mat-option>
+            <mat-option value="GAME">Game</mat-option>
+            <mat-option value="SONG">Song</mat-option>
+            <mat-option value="PROGRAM">Software</mat-option>
+            <mat-option value="BOOM">Book</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-label>Torrent File</mat-label>
+        <input type="file" (change)="onFileSelected($event)" required />
+
+        @if (uploadError) {
+        <div class="error-container">
+          <p>{{ uploadError }}</p>
+        </div>
+        }
+        <mat-divider></mat-divider>
+        <div class="button-container">
+          <button
+            mat-button
+            color="primary"
+            type="submit"
+            [disabled]="uploadForm.invalid || !newTorrent"
+          >
+            Upload
+            <mat-icon>cloud_upload</mat-icon>
+          </button>
+        </div>
+      </div>
+    </form>
+    }
+  </mat-card-content>
+</mat-card>

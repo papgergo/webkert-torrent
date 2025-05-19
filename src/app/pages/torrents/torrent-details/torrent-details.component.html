@@ -1,55 +1,66 @@
 <div class="mat-elevation-z8 torrent-container">
-  <div class="torrent-header">
-    <div class="title-container">
-      <h2>{{ torrent?.name }}</h2>
+  <ng-container *ngIf="torrent$ | async as torrent">
+    <div class="torrent-header">
+      <div class="title-container">
+        <h2>{{ torrent.name }}</h2>
+        @if (loggedInUser) { @if (loggedInUser.id == torrent.uploader.id) {
+        <button
+          mat-fab
+          extended
+          (click)="onDeleteTorrent(torrent.id!)"
+          class="delete-button"
+        >
+          <mat-icon> delete </mat-icon>Delete Torrent
+        </button>
+        } }
+      </div>
     </div>
-  </div>
-  <div class="torrent-details">
-    <mat-card class="torrent-info">
-      <mat-card-content>
-        <div>
-          <p>Category: {{ torrent?.category }}</p>
-          <mat-divider></mat-divider>
+    <div class="torrent-details">
+      <mat-card class="torrent-info">
+        <mat-card-content>
+          <div>
+            <p>Category: {{ torrent?.category }}</p>
+            <mat-divider></mat-divider>
 
-          <p>Size: {{ torrent?.size }}</p>
-          <mat-divider></mat-divider>
-          <p>
-            Upload Date:
-            {{ torrent?.uploadDate | timestampToDate | date : "mediumDate"
-            }}<!-- | date : "mediumDate" -->
-          </p>
-          <mat-divider></mat-divider>
-          <p>Uploader: {{ torrent?.uploader?.name }}</p>
-          <mat-divider></mat-divider>
+            <p>Size: {{ torrent.size | abbreviateFileSize }}</p>
+            <mat-divider></mat-divider>
+            <p>
+              Upload Date:
+              {{ torrent.uploadDate | timestampToDate | date : "mediumDate" }}
+            </p>
+            <mat-divider></mat-divider>
+            <p>Uploader: {{ torrent.uploader.name }}</p>
+            <mat-divider></mat-divider>
+          </div>
+        </mat-card-content>
+        <div class="torrent-options">
+          <ul>
+            <li>
+              <button mat-fab extended (click)="increaseTorrentSeedCount()">
+                <mat-icon>download</mat-icon>Download Torrent
+              </button>
+            </li>
+            <li>
+              <button mat-fab extended (click)="increaseTorrentSeedCount()">
+                <mat-icon>link</mat-icon>Magnet Download
+              </button>
+            </li>
+          </ul>
+        </div>
+      </mat-card>
+    </div>
+    <mat-card class="torrent-description">
+      <mat-card-content class="description">
+        <div class="image-container">
+          <img src="{{ torrent?.coverImageUrl }}" alt="Torrent Cover Image" />
+        </div>
+        <div class="torrent-text">
+          <h2>{{ torrent.name }}</h2>
+          <p>{{ torrent.description }}</p>
         </div>
       </mat-card-content>
-      <div class="torrent-options">
-        <ul>
-          <li>
-            <button mat-fab extended>
-              <mat-icon>download</mat-icon>Download Torrent
-            </button>
-          </li>
-          <li>
-            <button mat-fab extended>
-              <mat-icon>link</mat-icon>Magnet Download
-            </button>
-          </li>
-        </ul>
-      </div>
     </mat-card>
-  </div>
-  <mat-card class="torrent-description">
-    <mat-card-content class="description">
-      <div class="image-container">
-        <img src="{{ torrent?.coverImageUrl }}" alt="Torrent Cover Image" />
-      </div>
-      <div class="torrent-text">
-        <h2>{{ torrent?.name }}</h2>
-        <p>{{ torrent?.description }}</p>
-      </div>
-    </mat-card-content>
-  </mat-card>
+  </ng-container>
   @if (isLoading) {
   <div class="spinner-container">
     <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
@@ -62,8 +73,12 @@
       <mat-card-title>Comments</mat-card-title>
     </mat-card-header>
     @if (loggedInUser) {
-    <mat-card-content>
-      <img [src]="loggedInUser.profilePictureUrl" alt="User" />
+    <mat-card-content class="comment-form-container">
+      <img
+        [src]="loggedInUser.profilePictureUrl"
+        alt="User"
+        class="profile-picture"
+      />
       <form (ngSubmit)="onCreateComment()" class="comment-form">
         <mat-form-field class="comment-input">
           <textarea
@@ -82,20 +97,33 @@
     }
 
     <mat-card-content>
-      @for (item of commentCollection$ | async; track $index) {
+      @for (item of userCommentData$ | async; track $index) {
       <div class="comment">
         <img
-          [src]="item.user.profilePictureUrl"
+          [src]="item.user?.profilePictureUrl"
           alt="User"
           class="profile-picture"
         />
         <div class="comment-details">
-          <p>
-            <strong>{{ item.user.name }}</strong>
-          </p>
-          <p>
-            {{ item.comment.text }}
-          </p>
+          <div class="comment-details-content">
+            <p>
+              <strong>{{ item.user?.name }}</strong>
+            </p>
+            <p>
+              {{ item.comment.text }}
+            </p>
+          </div>
+          @if (loggedInUser) { @if (loggedInUser.id == item.user?.id) {
+          <div class="delete-button-container">
+            <button
+              mat-fab
+              (click)="onDeleteComment(item.comment.id!)"
+              class="delete-button"
+            >
+              <mat-icon> delete </mat-icon>
+            </button>
+          </div>
+          } }
         </div>
         <mat-divider></mat-divider>
       </div>

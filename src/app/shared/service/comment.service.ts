@@ -38,14 +38,14 @@ export class CommentService {
 
   private async fetchCommentCollection(): Promise<Comment[]> {
     try {
-      const commentColRef = collection(this.firestore, 'Torrents');
+      const commentColRef = collection(this.firestore, 'Comments');
       const commentsSnapshot = await getDocs(commentColRef);
 
       return commentsSnapshot.docs.map((docSnap) => {
         if (!docSnap.exists()) {
           return [];
         }
-        return { ...docSnap.data() };
+        return { ...docSnap.data(), id: docSnap.id };
       }) as Comment[];
     } catch (error) {
       console.error('Error fetching comments:', error);
@@ -58,7 +58,7 @@ export class CommentService {
       idField: 'id',
     }).pipe(
       map((comments: any[]) =>
-        comments.filter((c) => c.torrentId === torrentId)
+        comments.filter((c) => c.torrentId == torrentId)
       ),
       switchMap((comments: any[]) => {
         if (comments.length === 0) return of([]);

@@ -6,6 +6,7 @@ export interface Torrent {
   uploader: User;
   name: string;
   size: string;
+  content: string;
   category: Category;
   seeds: number;
   description: string;
